@@ -7,17 +7,17 @@ type Props = {
     formik: FormikProps<any>;
   };
 
-const FormInput = ({ id, label, error, formik }: Props) => {
+const FormTextArea = ({ id, label, error, formik }: Props) => {
   return (
     <div className="input-div-style group">
-      <input
-        className="input-peer-style peer"
+      <textarea
+        className="textarea-peer-style peer"
         placeholder=" "
-        type="text"
+        rows={6 }
         id={id}
         {...formik.getFieldProps(id)}
       />
-      <label htmlFor={id} className="input-label-peer-style">
+      <label htmlFor={id} className="textarea-label-peer-style">
         {label}
       </label>
       {error ? (
@@ -27,4 +27,4 @@ const FormInput = ({ id, label, error, formik }: Props) => {
   );
 };
 
-export default FormInput;
+export default FormTextArea;

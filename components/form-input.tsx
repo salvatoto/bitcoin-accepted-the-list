@@ -5,15 +5,16 @@ type Props = {
     label: string;
     error: string | false | undefined;
     formik: FormikProps<any>;
+    inline?: boolean;
   };
 
-const FormTextArea = ({ id, label, error, formik }: Props) => {
-  return (
-    <div className="input-div-style group">
-      <textarea
+  const FormInput = ({ id, label, error, formik, inline }: Props) => {
+    return (
+      <div className={inline ? "input-div-inline-style group" : "input-div-style group"}>
+      <input
         className="input-peer-style peer"
         placeholder=" "
-        rows={2}
+        type="text"
         id={id}
         {...formik.getFieldProps(id)}
       />
@@ -27,4 +28,4 @@ const FormTextArea = ({ id, label, error, formik }: Props) => {
   );
 };
 
-export default FormTextArea;
+export default FormInput;
