@@ -1,7 +1,11 @@
 import Container from "@/components/container";
 import NewProviderForm from "@/components/new-provider-form";
+import { useRouter } from "next/router";
 
-export default function NewProvider({}) {
+export default function NewProviderPage({}) {
+  // const router = useRouter();
+  // router.query.showGetOnListLink = "false";
+
   return (
     <>
       <Container>

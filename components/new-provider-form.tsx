@@ -6,7 +6,8 @@ import * as Yup from "yup";
 import FormInput from "./form-input";
 import FormTextArea from "./form-textarea";
 import FormImageInput from "./form-image-input";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 // TODO:
 // 1. Add LNUrl
@@ -14,7 +15,7 @@ import FormImageInput from "./form-image-input";
 // 3. 
 
 const NewProviderForm = () => {
-  // const router = useRouter();
+  const router = useRouter();
   // const [name, setName] = useState("");
   // const [description, setDescription] = useState("");
 
@@ -89,12 +90,12 @@ const NewProviderForm = () => {
               alert(JSON.stringify(photoData.error));
             } else {
               console.log("[FOTO] Photo uploaded successfully.");
+              console.log("[FORM] Form submitted successfully. Redirecting...");
+
+              // 3. Route upon completion
+              router.push('/form-completion');
             }
           }
-    
-          // TODO: Route after successful submission
-          console.log("Form submitted successfully. Redirecting...");
-          // router.push('/newProvider');
         } 
       } catch (error) {
         console.error("Error submitting form:", error);

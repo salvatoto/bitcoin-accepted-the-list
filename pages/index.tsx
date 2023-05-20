@@ -1,26 +1,21 @@
-import Container from "../components/container";
-import Intro from "../components/intro";
+import { useRouter } from "next/router";
 import Layout from "../components/layout";
 import Head from "next/head";
 
-
 export default function Index({}) {
+  const router = useRouter();
+  router.query.showGetOnListLink = "true";
+
   return (
     <>
       <Layout>
         <Head>
           <title>{`Hal's List`}</title>
         </Head>
-        <div className="flex justify-between">
-          <Container>
-            <Intro />
-          </Container> 
-        </div>
       </Layout>
     </>
   );
 }
-
 
 // export const getStaticProps = async () => {
 //   const allPosts = getAllPosts([
