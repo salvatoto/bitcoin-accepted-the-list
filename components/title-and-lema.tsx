@@ -4,6 +4,8 @@ type Props = {
   className?: string;
 };
 
+// TODO: Add Bitcoin logo just before the title.
+
 const TitleAndLema: React.FC<Props> = ({ className }) => {
   return (
     <div className={className}>
@@ -12,7 +14,7 @@ const TitleAndLema: React.FC<Props> = ({ className }) => {
           Hal's List
         </h1>
       </Link>
-      <h4 className="text-center md:text-left text-lg mt-5">
+      <h4 className="text-center md:text-left text-2xl md:text-4xl mt-5">
         Honest Work for Honest Pay.
       </h4>
     </div>
