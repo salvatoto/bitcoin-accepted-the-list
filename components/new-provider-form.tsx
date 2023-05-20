@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 
 // TODO:
 // 1. Add LNUrl
+// 2. Need an alert for invalid fields, and scroll to invalid field
+// 3. Also need to add a loading spinner
 
 const NewProviderForm = () => {
   const router = useRouter();
@@ -44,7 +46,11 @@ const NewProviderForm = () => {
         .required("Required"),
       phone: Yup.string().max(15, "Must be 15 characters or less"),
       email: Yup.string().email("Invalid email address"),
-      website: Yup.string().url("Invalid url address"),
+      website:Yup.string()
+      .matches(
+        /^(https?|ftp):\/\/([^\s/$.?#].[^\s]*)?$|^([^\s/$.?#].[^\s]*)$/,
+        'Invalid URL address'
+      ),
       nostr: Yup.string(),
       twitter: Yup.string(),
       instgram: Yup.string(),

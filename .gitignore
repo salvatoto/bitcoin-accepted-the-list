@@ -39,3 +39,6 @@ next-env.d.ts
 /supabase
 /supabase/config/system.env
 /supabase/config/internal-jwt.key
+
+# dev
+/dev

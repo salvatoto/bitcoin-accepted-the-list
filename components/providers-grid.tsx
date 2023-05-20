@@ -5,8 +5,9 @@ import ProviderCard from "./provider-card";
 type Provider = {
   id: string;
   name: string;
-  location: string;
-  services: string;
+  location: string[];
+  services: string[];
+  description?: string,
   imageUrl?: string;
 };
 
@@ -30,7 +31,6 @@ const ProvidersGrid = () => {
         await Promise.all(
           dataWithImages.map(async (provider: Provider, index: number) => {
             const imageUrl = await fetchProviderImageUrl(provider.id);
-            console.log("[IMAGE] each imageUrl:", imageUrl);
 
             const updatedProvider = { ...provider, imageUrl };
             setProviders((prevProviders) => {
@@ -52,13 +52,18 @@ const ProvidersGrid = () => {
     <div className="grid grid-cols-3 gap-4">
       {providers.map((provider) => (
         <ProviderCard
-          key={provider.id}
-          id={provider.id}
-          name={provider.name}
-          location={provider.location}
-          services={provider.services}
-          imageUrl={provider.imageUrl ?? ""}
-        />
+              key={provider.id}
+              id={provider.id}
+              name={provider.name}
+              location={provider.location}
+              services={provider.services}
+              description={provider.description ?? ""} 
+              imageUrl={provider.imageUrl ?? ""} 
+              onLocationClick={function (location: string): void {
+                 // TODO: Filter by Location
+              } } onServiceClick={function (service: string): void {
+                // TODO: Filter by Service
+              } }        />
       ))}
     </div>
   );

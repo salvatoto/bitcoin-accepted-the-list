@@ -3,14 +3,25 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
 
+//TODO: Need to add rest of fields
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name, description } = req.body;
+  const { name, location, services, phone, email, website, nostr, twitter, instagram, languages, description, profile_url} = req.body;
 
   try {
     const provider: providers_intermediate = await prisma.providers_intermediate.create({
       data: {
         name,
-        description
+        location,
+        services,
+        phone,
+        email,
+        website,
+        nostr,
+        twitter,
+        instagram,
+        languages,
+        profile_url,
+        description,
       },
     });
 

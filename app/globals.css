@@ -21,7 +21,13 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* PROVIDER CARD STYLES */
+.card-element-title-style {@apply text-sm font-semibold mt-1 mb-0 text-gray-500}
 
+.card-element-button {@apply text-lg font-semibold text-orange-600 py-0 rounded mr-2 mb-2 border border-transparent hover:text-orange-600 active:text-orange-900 focus:outline-none transition-colors}
+
+
+/* NEW PROVIDER FORM STYLES */
 /* A single form input that takes up full width */
 .input-div-style {
   @apply relative z-0 w-full mb-16;
