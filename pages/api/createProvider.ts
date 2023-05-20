@@ -1,28 +1,21 @@
+import { PrismaClient, providers_intermediate } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { supabase } from "../../client.js";
 
-type ProviderData = {
-  id: string;
-  name: string;
-  description: string;
-};
+const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, description } = req.body;
 
-  const { data, error } = await supabase
-    .from('providers_intermediate')
-    .insert([{ name, description }])
-    .select();
+  try {
+    const provider: providers_intermediate = await prisma.providers_intermediate.create({
+      data: {
+        name,
+        description
+      },
+    });
 
-  if (error) {
-    res.status(500).json({ error });
-  } else {
-    if (data && data.length > 0) {
-      const userId = (data[0] as ProviderData).id; // Assuming the 'id' field is the userId in your table
-      res.status(200).json({ userId });
-    } else {
-      res.status(500).json({ error: "Unexpected response from the database" });
-    }
+    res.status(200).json({ userId: provider.id });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
   }
 };
