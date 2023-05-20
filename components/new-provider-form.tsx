@@ -8,6 +8,11 @@ import FormTextArea from "./form-textarea";
 import FormImageInput from "./form-image-input";
 // import { useRouter } from "next/navigation";
 
+// TODO:
+// 1. Add LNUrl
+// 2. Route to completion page
+// 3. 
+
 const NewProviderForm = () => {
   // const router = useRouter();
   // const [name, setName] = useState("");
@@ -41,9 +46,9 @@ const NewProviderForm = () => {
       phone: Yup.string().max(15, "Must be 15 characters or less"),
       email: Yup.string().email("Invalid email address"),
       website: Yup.string().url("Invalid url address"),
-      // nostr: Yup.string(),
-      // twitter: Yup.string(),
-      // instgram: Yup.string(),
+      nostr: Yup.string(),
+      twitter: Yup.string(),
+      instgram: Yup.string(),
       description: Yup.string().max(500, "Must be 500 characters or less"),
     }),
     onSubmit: async (values) => {
