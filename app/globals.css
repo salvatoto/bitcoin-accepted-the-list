@@ -49,7 +49,7 @@ body {
 }
 
 .input-label-plain-style {
-  @apply text-base mt-6 mb-2 text-gray-500;
+  @apply text-base mt-0 mb-2 text-gray-500;
 }
 
 .input-file-style {

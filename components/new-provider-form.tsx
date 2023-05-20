@@ -5,14 +5,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import FormInput from "./form-input";
 import FormTextArea from "./form-textarea";
-import FormImageUpload from "./form-image-uploader";
+import FormImageInput from "./form-image-input";
 // import { useRouter } from "next/navigation";
 
 const NewProviderForm = () => {
   // const router = useRouter();
   // const [name, setName] = useState("");
   // const [description, setDescription] = useState("");
-
 
   const formik = useFormik({
     initialValues: {
@@ -27,6 +26,7 @@ const NewProviderForm = () => {
       instagram: "",
       languages: "",
       description: "",
+      profile_photo_file: null,
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -47,6 +47,7 @@ const NewProviderForm = () => {
       description: Yup.string().max(500, "Must be 500 characters or less"),
     }),
     onSubmit: async (values) => {
+      // 1. Create Provider call
       try {
         const response = await fetch("/api/createProvider", {
           method: "POST",
@@ -59,12 +60,37 @@ const NewProviderForm = () => {
         const data = await response.json();
 
         if (response.status !== 200) {
-          console.log("FORM] Error occurred:", data.error);
+          console.log("FORM] Error occurred creating provider:", data.error);
           alert(JSON.stringify(data.error));
         } else {
-          console.log("FORM] Form submitted successfully. Redirecting...");
+          console.log("FORM] Success - created provider, now uploading profile photo");
+
+          // 2. Upload Profile Photo call
+          if (values.profile_photo_file) {
+            const userId = data.userId;
+            const formData = new FormData();
+            formData.append('file', values.profile_photo_file);
+            formData.append('userId', userId);
+
+            const photoResponse = await fetch("/api/uploadProfilePhoto", {
+              method: "POST",
+              body: formData,
+            });
+
+            const photoData = await photoResponse.json();
+    
+            if (photoResponse.status !== 200) {
+              console.log("[FOTO] Photo upload error:", photoData.error);
+              alert(JSON.stringify(photoData.error));
+            } else {
+              console.log("[FOTO] Photo uploaded successfully.");
+            }
+          }
+    
+          // TODO: Route after successful submission
+          console.log("Form submitted successfully. Redirecting...");
           // router.push('/newProvider');
-        }
+        } 
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("An error occurred while submitting the form");
@@ -75,7 +101,7 @@ const NewProviderForm = () => {
   });
 
   return (
-    <div className="w-3/5 bg-neutral-300 flex flex-col items-center py-8">
+    <div className="w-full bg-neutral-300 flex flex-col items-center py-8 mx-auto">
       <h1 className="text-5xl font-semibold text-center text-black">
         Get on the List!
       </h1>
@@ -165,7 +191,11 @@ const NewProviderForm = () => {
           formik={formik}
         />
 
-        <FormImageUpload />
+        <FormImageInput
+          onImageCropped={(croppedImage) =>
+            formik.setFieldValue("profile_photo_file", croppedImage)
+          }
+        />
 
         {/* <div
             className="mt-1 text-sm text-gray-500 dark:text-gray-300"
@@ -176,7 +206,7 @@ const NewProviderForm = () => {
           </div> */}
 
         <button
-          className="mt-10 text-lg text-white font-semibold bg-gray-600 py-3 px-6 rounded-md focus:outline-none focus:ring-2"
+          className="mt-16 text-lg text-white font-semibold bg-gray-600 py-3 px-6 rounded-md focus:outline-none focus:ring-2"
           type="submit"
           disabled={formik.isSubmitting}
         >
@@ -184,9 +214,6 @@ const NewProviderForm = () => {
         </button>
       </form>
     </div>
-    // </div>
-    // )}
-    // </Formik>
   );
 };
 

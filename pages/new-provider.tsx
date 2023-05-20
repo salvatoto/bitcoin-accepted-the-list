@@ -5,7 +5,7 @@ export default function NewProvider({}) {
   return (
     <>
       <Container>
-        <div className="flex flex-col items-center py-8 m-16">
+        <div className="w-full sm:w-4/5 md:w-3/5 flex flex-col items-center py-8 mx-auto">
           <NewProviderForm />
         </div>
       </Container>
