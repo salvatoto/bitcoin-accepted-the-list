@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({ userId: provider.id });
+    res.status(200).json({ userId: provider.id.toString() });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

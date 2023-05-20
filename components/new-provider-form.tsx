@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 
 // TODO:
 // 1. Add LNUrl
-// 2. Route to completion page
-// 3. 
 
 const NewProviderForm = () => {
   const router = useRouter();

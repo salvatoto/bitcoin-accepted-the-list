@@ -5,9 +5,17 @@ const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const providers = await prisma.providers.findMany();
+    //TODO: Temp pulling from `providers_intermediate` until chron job is set up
+    const providers = await prisma.providers_intermediate.findMany();
 
-    res.status(200).json({ providers: providers });
+      const modifiedProviders = providers.map(provider => {
+        return {
+          ...provider,
+          id: provider.id.toString(),
+        };
+      });
+
+    res.status(200).json({ providers: modifiedProviders });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
