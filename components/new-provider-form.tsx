@@ -8,6 +8,7 @@ import FormTextArea from "./form-textarea";
 import FormImageInput from "./form-image-input";
 import { useRouter } from "next/navigation";
 import { AlertContext } from "@/contexts/AlertContext";
+import { createProvider, uploadProfilePhoto } from "../lib/api/api";
 
 // TODO:
 // 1. Add LNUrl
@@ -58,60 +59,37 @@ const NewProviderForm = ({
       instgram: Yup.string(),
       description: Yup.string().max(500, "Must be 500 characters or less"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       updateAlertMessage("");
-
-      // 1. Create Provider call
+      setSubmitting(true);
+    
       try {
-        const response = await fetch("/api/createProvider", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-
-        const data = await response.json();
-
-        if (response.status !== 200) {
-          console.log("FORM] Error occurred creating provider:", data.error);
-          alert(JSON.stringify(data.error));
-        } else {
-          console.log(
-            "FORM] Success - created provider, now uploading profile photo"
+        // 1. Create Provider call
+        const providerData = await createProvider(values);
+    
+        console.log(
+          "FORM] Success - created provider, now uploading profile photo"
+        );
+    
+        // 2. Upload Profile Photo call
+        if (values.profile_photo_file) {
+          const userId = providerData.userId;
+          const photoData = await uploadProfilePhoto(
+            values.profile_photo_file,
+            userId
           );
-
-          // 2. Upload Profile Photo call
-          if (values.profile_photo_file) {
-            const userId = data.userId;
-            const formData = new FormData();
-            formData.append("file", values.profile_photo_file);
-            formData.append("userId", userId);
-
-            const photoResponse = await fetch("/api/uploadProfilePhoto", {
-              method: "POST",
-              body: formData,
-            });
-
-            const photoData = await photoResponse.json();
-
-            if (photoResponse.status !== 200) {
-              console.log("[FOTO] Photo upload error:", photoData.error);
-              alert(JSON.stringify(photoData.error));
-            } else {
-              console.log("[FOTO] Photo uploaded successfully.");
-              console.log("[FORM] Form submitted successfully. Redirecting...");
-
-              // 3. Route upon completion
-              router.push("/form-completion");
-            }
-          }
+    
+          console.log("[FOTO] Photo uploaded successfully.");
+          console.log("[FORM] Form submitted successfully. Redirecting...");
+    
+          // 3. Route upon completion
+          router.push("/form-completion");
         }
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("An error occurred while submitting the form");
       } finally {
-        formik.setSubmitting(false);
+        setSubmitting(false);
       }
     },
   });
