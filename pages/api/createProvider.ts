@@ -5,25 +5,39 @@ const prisma = new PrismaClient();
 
 //TODO: Need to add rest of fields
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name, location, services, phone, email, website, nostr, twitter, instagram, languages, description, profile_url} = req.body;
+  const {
+    name,
+    location,
+    services,
+    phone,
+    email,
+    website,
+    nostr,
+    twitter,
+    instagram,
+    languages,
+    description,
+    profile_url,
+  } = req.body;
 
   try {
-    const provider: providers_intermediate = await prisma.providers_intermediate.create({
-      data: {
-        name,
-        location,
-        services,
-        phone,
-        email,
-        website,
-        nostr,
-        twitter,
-        instagram,
-        languages,
-        profile_url,
-        description,
-      },
-    });
+    const provider: providers_intermediate =
+      await prisma.providers_intermediate.create({
+        data: {
+          name,
+          location,
+          services,
+          phone,
+          email,
+          website,
+          nostr,
+          twitter,
+          instagram,
+          languages,
+          profile_url,
+          description,
+        },
+      });
 
     res.status(200).json({ userId: provider.id.toString() });
   } catch (error) {

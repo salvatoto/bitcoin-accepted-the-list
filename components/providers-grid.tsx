@@ -7,7 +7,7 @@ type Provider = {
   name: string;
   location: string[];
   services: string[];
-  description?: string,
+  description?: string;
   imageUrl?: string;
 };
 
@@ -52,18 +52,20 @@ const ProvidersGrid = () => {
     <div className="grid grid-cols-3 gap-4">
       {providers.map((provider) => (
         <ProviderCard
-              key={provider.id}
-              id={provider.id}
-              name={provider.name}
-              location={provider.location}
-              services={provider.services}
-              description={provider.description ?? ""} 
-              imageUrl={provider.imageUrl ?? ""} 
-              onLocationClick={function (location: string): void {
-                 // TODO: Filter by Location
-              } } onServiceClick={function (service: string): void {
-                // TODO: Filter by Service
-              } }        />
+          key={provider.id}
+          id={provider.id}
+          name={provider.name}
+          location={provider.location}
+          services={provider.services}
+          description={provider.description ?? ""}
+          imageUrl={provider.imageUrl ?? ""}
+          onLocationClick={function (location: string): void {
+            // TODO: Filter by Location
+          }}
+          onServiceClick={function (service: string): void {
+            // TODO: Filter by Service
+          }}
+        />
       ))}
     </div>
   );

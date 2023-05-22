@@ -30,21 +30,19 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
   };
 
   return (
-    <div className="rounded-lg p-4 border bg-white">
+    <div className="rounded-lg border bg-white p-4">
       {imageUrl ? (
         <img
           src={imageUrl}
           alt={name}
-          className="w-full h-64 object-cover rounded"
+          className="h-64 w-full rounded object-cover"
         />
       ) : (
-        <div className="w-full h-64 bg-gray-200 rounded"></div>
+        <div className="h-64 w-full rounded bg-gray-200"></div>
       )}
-      <h2 className="text-xl mt-4 mb-4 font-bold">{name}</h2>
+      <h2 className="mb-4 mt-4 text-xl font-bold">{name}</h2>
       <div>
-        <h4 className="card-element-title-style">
-          Location
-        </h4>
+        <h4 className="card-element-title-style">Location</h4>
         <p className="font-semibold">
           {location.map((loc) => (
             <button
@@ -58,9 +56,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
         </p>
       </div>
       <div>
-        <h4 className="card-element-title-style">
-          Services
-        </h4>
+        <h4 className="card-element-title-style">Services</h4>
         <div className="flex flex-wrap">
           {services.map((service) => (
             <button
@@ -74,9 +70,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
         </div>
       </div>
       <div className="mt-2">
-        <h4 className="card-element-title-style">
-          Description
-        </h4>
+        <h4 className="card-element-title-style">Description</h4>
         <p className="mt-1">{description}</p>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default function Index({}) {
         <Head>
           <title>{`Hal's List`}</title>
         </Head>
-        <ProvidersGrid/>
+        <ProvidersGrid />
       </Layout>
     </>
   );

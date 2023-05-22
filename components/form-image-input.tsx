@@ -35,7 +35,7 @@ const FormImageInput = ({ onImageCropped }: Props) => {
   const cropImage = (
     img: HTMLImageElement,
     cropArea: smartcrop.Crop
-  ): Promise<{ blob: Blob, dataUrl: string }> => {
+  ): Promise<{ blob: Blob; dataUrl: string }> => {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
@@ -54,16 +54,16 @@ const FormImageInput = ({ onImageCropped }: Props) => {
       );
 
       // Convert the canvas to a blob
-      canvas.toBlob(blob => {
+      canvas.toBlob((blob) => {
         if (blob) {
           resolve({
             blob: blob,
             dataUrl: canvas.toDataURL(),
           });
         } else {
-          reject(new Error('Failed to create blob from canvas'));
+          reject(new Error("Failed to create blob from canvas"));
         }
-      }, 'image/png');
+      }, "image/png");
     });
   };
 
@@ -80,7 +80,7 @@ const FormImageInput = ({ onImageCropped }: Props) => {
         <img
           src={imagePreview}
           alt="Image preview"
-          className="rounded mt-4"
+          className="mt-4 rounded"
           width="200"
           height="200"
         />

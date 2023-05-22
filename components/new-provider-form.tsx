@@ -8,7 +8,6 @@ import FormTextArea from "./form-textarea";
 import FormImageInput from "./form-image-input";
 import { useRouter } from "next/navigation";
 
-
 // TODO:
 // 1. Add LNUrl
 // 2. Need an alert for invalid fields, and scroll to invalid field
@@ -46,10 +45,9 @@ const NewProviderForm = () => {
         .required("Required"),
       phone: Yup.string().max(15, "Must be 15 characters or less"),
       email: Yup.string().email("Invalid email address"),
-      website:Yup.string()
-      .matches(
+      website: Yup.string().matches(
         /^(https?|ftp):\/\/([^\s/$.?#].[^\s]*)?$|^([^\s/$.?#].[^\s]*)$/,
-        'Invalid URL address'
+        "Invalid URL address"
       ),
       nostr: Yup.string(),
       twitter: Yup.string(),
@@ -73,14 +71,16 @@ const NewProviderForm = () => {
           console.log("FORM] Error occurred creating provider:", data.error);
           alert(JSON.stringify(data.error));
         } else {
-          console.log("FORM] Success - created provider, now uploading profile photo");
+          console.log(
+            "FORM] Success - created provider, now uploading profile photo"
+          );
 
           // 2. Upload Profile Photo call
           if (values.profile_photo_file) {
             const userId = data.userId;
             const formData = new FormData();
-            formData.append('file', values.profile_photo_file);
-            formData.append('userId', userId);
+            formData.append("file", values.profile_photo_file);
+            formData.append("userId", userId);
 
             const photoResponse = await fetch("/api/uploadProfilePhoto", {
               method: "POST",
@@ -88,7 +88,7 @@ const NewProviderForm = () => {
             });
 
             const photoData = await photoResponse.json();
-    
+
             if (photoResponse.status !== 200) {
               console.log("[FOTO] Photo upload error:", photoData.error);
               alert(JSON.stringify(photoData.error));
@@ -97,10 +97,10 @@ const NewProviderForm = () => {
               console.log("[FORM] Form submitted successfully. Redirecting...");
 
               // 3. Route upon completion
-              router.push('/form-completion');
+              router.push("/form-completion");
             }
           }
-        } 
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("An error occurred while submitting the form");
@@ -111,12 +111,12 @@ const NewProviderForm = () => {
   });
 
   return (
-    <div className="w-full bg-neutral-300 flex flex-col items-center py-8 mx-auto">
-      <h1 className="text-5xl font-semibold text-center text-black">
+    <div className="mx-auto flex w-full flex-col items-center bg-neutral-300 py-8">
+      <h1 className="text-center text-5xl font-semibold text-black">
         Get on the List!
       </h1>
       <form
-        className="my-4 flex flex-col p-6 w-full px-16"
+        className="my-4 flex w-full flex-col p-6 px-16"
         onSubmit={formik.handleSubmit}
       >
         <FormInput
@@ -216,7 +216,7 @@ const NewProviderForm = () => {
           </div> */}
 
         <button
-          className="mt-16 text-lg text-white font-semibold bg-gray-600 py-3 px-6 rounded-md focus:outline-none focus:ring-2"
+          className="mt-16 rounded-md bg-gray-600 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2"
           type="submit"
           disabled={formik.isSubmitting}
         >

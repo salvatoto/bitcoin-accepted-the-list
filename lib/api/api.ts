@@ -8,16 +8,14 @@ export async function fetchProviders() {
 }
 
 export async function fetchProviderImageUrl(
-    providerId: string
-  ): Promise<string | undefined> {
-    const response = await fetch(
-      `/api/getProfilePhoto?userId=${providerId}`
-    );
-  
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-  
-    const { imageUrl } = await response.json();
-    return imageUrl;
+  providerId: string
+): Promise<string | undefined> {
+  const response = await fetch(`/api/getProfilePhoto?userId=${providerId}`);
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
   }
+
+  const { imageUrl } = await response.json();
+  return imageUrl;
+}

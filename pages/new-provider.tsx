@@ -9,7 +9,7 @@ export default function NewProviderPage({}) {
   return (
     <>
       <Container>
-        <div className="w-full sm:w-4/5 md:w-3/5 flex flex-col items-center py-8 mx-auto">
+        <div className="mx-auto flex w-full flex-col items-center py-8 sm:w-4/5 md:w-3/5">
           <NewProviderForm />
         </div>
       </Container>

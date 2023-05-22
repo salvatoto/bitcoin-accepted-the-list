@@ -1,14 +1,14 @@
-import '../app/globals.css'
-import { Inter } from 'next/font/google'
-import Meta from './meta'
-import Footer from './footer'
+import "../app/globals.css";
+import { Inter } from "next/font/google";
+import Meta from "./meta";
+import Footer from "./footer";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
-  preview?: boolean
-  children: React.ReactNode
-}
+  preview?: boolean;
+  children: React.ReactNode;
+};
 
 const Layout = ({ preview, children }: Props) => {
   return (
@@ -21,13 +21,10 @@ const Layout = ({ preview, children }: Props) => {
       </div>
       {/* <Footer /> */}
     </>
-  )
-}
+  );
+};
 
-export default Layout
-
-
-
+export default Layout;
 
 // const inter = Inter({ subsets: ['latin'] })
 

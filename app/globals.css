@@ -5,10 +5,9 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;  
+  --background-end-rgb: 255, 255, 255;
 
   --accent-color: text-orange-600;
-
 }
 
 body {
@@ -22,46 +21,49 @@ body {
 }
 
 /* PROVIDER CARD STYLES */
-.card-element-title-style {@apply text-sm font-semibold mt-1 mb-0 text-gray-500}
+.card-element-title-style {
+  @apply mb-0 mt-1 text-sm font-semibold text-gray-500;
+}
 
-.card-element-button {@apply text-lg font-semibold text-orange-600 py-0 rounded mr-2 mb-2 border border-transparent hover:text-orange-600 active:text-orange-900 focus:outline-none transition-colors}
-
+.card-element-button {
+  @apply mb-2 mr-2 rounded border border-transparent py-0 text-lg font-semibold text-orange-600 transition-colors hover:text-orange-600 focus:outline-none active:text-orange-900;
+}
 
 /* NEW PROVIDER FORM STYLES */
 /* A single form input that takes up full width */
 .input-div-style {
-  @apply relative z-0 w-full mb-16;
+  @apply relative z-0 mb-16 w-full;
 }
 
 /* Allows to form inputs to be side-by-side */
 .input-div-inline-style {
-  @apply relative z-0 md:w-auto md:mr-6 mb-16;
+  @apply relative z-0 mb-16 md:mr-6 md:w-auto;
 }
 
 .input-peer-style {
-  @apply block py-2.5 px-0 w-full bg-transparent text-orange-800 border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-orange-600;
+  @apply block w-full appearance-none border-0 border-b-2 border-gray-600 bg-transparent px-0 py-2.5 text-orange-800 focus:border-orange-600 focus:outline-none focus:ring-0;
 }
 
 .input-label-peer-style {
-  @apply peer-focus:font-medium absolute duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 text-gray-600 peer-focus:text-orange-600;
+  @apply absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-gray-600 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-8 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-orange-600;
 }
 
 .textarea-peer-style {
-  @apply block py-2.5 px-3 w-full bg-transparent text-orange-800 rounded border-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-orange-600;
+  @apply block w-full appearance-none rounded border-2 border-gray-600 bg-transparent px-3 py-2.5 text-orange-800 focus:border-orange-600 focus:outline-none focus:ring-0;
 }
 
 .textarea-label-peer-style {
-  @apply peer-focus:font-medium absolute duration-300 transform -translate-y-7 scale-75 top-3 left-3 -z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 text-gray-600 peer-focus:text-orange-600;
+  @apply absolute left-3 top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-gray-600 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-8 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-orange-600;
 }
 
 .input-label-plain-style {
-  @apply text-base mt-0 mb-2 text-gray-500;
+  @apply mb-2 mt-0 text-base text-gray-500;
 }
 
 .input-file-style {
-  @apply relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border-2 border-solid border-gray-600 bg-clip-padding px-3 py-4 font-normal leading-[2.15] text-base transition duration-300 ease-in-out file:-mx-3 file:-my-4 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-4 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-500 focus:outline-none;
+  @apply relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border-2 border-solid border-gray-600 bg-clip-padding px-3 py-4 text-base font-normal leading-[2.15] transition duration-300 ease-in-out file:-mx-3 file:-my-4 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-4 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-500 focus:outline-none;
 }
 
 .input-error-style {
-  @apply absolute top-full text-sm mt-1 mb-1 text-red-400;
+  @apply absolute top-full mb-1 mt-1 text-sm text-red-400;
 }

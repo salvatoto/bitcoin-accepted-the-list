@@ -7,18 +7,19 @@ type Props = {
 
 const Intro = ({ showGetOnListLink = false }: Props) => {
   return (
-    <section className="flex-col md:flex-row flex md:justify-between mt-16 mb-16 md:mb-12">
+    <section className="mb-16 mt-16 flex flex-col md:mb-12 md:flex-row md:justify-between">
       {/* <div className="flex items-start md:flex-1"> */}
-        <div className="flex items-start md:flex-1">
-          <TitleAndLema className="ml-4 md:ml-6" />
-        </div>
-        {showGetOnListLink && (
-          <Link href="/new-provider" legacyBehavior>
-            <a className="flex items-center text-center text-2xl py-2 px-6 lg:py-4 lg:px-12 my-2 lg:my-2 bg-white hover:bg-orange-600 hover:text-white border border-black text-black font-bold duration-200 transition-colors rounded-lg">
-              GET ON <br/>THE LIST
-            </a>
-          </Link>
-        )}
+      <div className="flex items-start md:flex-1">
+        <TitleAndLema className="ml-4 md:ml-6" />
+      </div>
+      {showGetOnListLink && (
+        <Link href="/new-provider" legacyBehavior>
+          <a className="my-2 flex items-center rounded-lg border border-black bg-white px-6 py-2 text-center text-2xl font-bold text-black transition-colors duration-200 hover:bg-orange-600 hover:text-white lg:my-2 lg:px-12 lg:py-4">
+            GET ON <br />
+            THE LIST
+          </a>
+        </Link>
+      )}
       {/* </div> */}
     </section>
   );

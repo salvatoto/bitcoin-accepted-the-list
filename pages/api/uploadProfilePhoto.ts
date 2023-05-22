@@ -74,7 +74,7 @@ const extractFile = (files: formidable.Files): formidable.File | undefined => {
 };
 
 const generateSignedUrl = async (userId: string) => {
-  const uploadUrl = `${userId}/profile-photo.jpg`
+  const uploadUrl = `${userId}/profile-photo.jpg`;
   const { data, error } = await supabase.storage
     .from("profile-photos")
     .createSignedUploadUrl(uploadUrl);

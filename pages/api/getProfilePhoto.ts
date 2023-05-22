@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { supabase } from "../../client";
-import { Stream } from 'stream';
+import { Stream } from "stream";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = req.query;
@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   console.log(`Fetching image for userId: ${userId}`);
-  
+
   const { data, error } = await supabase.storage
     .from("profile-photos")
     .download(`${userId}/profile-photo.jpg`);
@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error });
   } else {
     const buffer = await data.arrayBuffer();
-    const base64Data = Buffer.from(buffer).toString('base64');
+    const base64Data = Buffer.from(buffer).toString("base64");
     const imageUrl = `data:image/jpeg;base64,${base64Data}`;
     res.status(200).json({ imageUrl });
   }

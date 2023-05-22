@@ -9,7 +9,7 @@ const TitleAndLema: React.FC<Props> = ({ className }) => {
     <div className={className}>
       <div className="flex items-center">
         <Link href="/" passHref>
-          <h1 className="text-5xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-4 cursor-pointer">
+          <h1 className="cursor-pointer text-5xl font-bold leading-tight tracking-tighter md:pr-4 md:text-8xl">
             Hal's List
           </h1>
         </Link>
@@ -21,7 +21,7 @@ const TitleAndLema: React.FC<Props> = ({ className }) => {
           height={100}
         />
       </div>
-      <h4 className="text-center md:text-left text-2xl md:text-4xl mt-0">
+      <h4 className="mt-0 text-center text-2xl md:text-left md:text-4xl">
         Honest Work for Honest Pay.
       </h4>
     </div>

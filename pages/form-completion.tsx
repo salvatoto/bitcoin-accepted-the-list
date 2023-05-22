@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 export default function FormCompletionPage({}) {
   // const router = useRouter();
   // router.query.showGetOnListLink = "false";
-  
+
   return (
     <>
       <Layout>
@@ -21,13 +21,12 @@ export default function FormCompletionPage({}) {
           <title>{`Hal's List`}</title>
         </Head>
         <Container>
-            <BackgroundBox className="mt-2 md:mt-16" >
-              <h1 className="text-3xl md:text-5xl font-semibold text-center text-black mx-12 my-12">
-                Thanks for submitting.
-                <br /> We will review you submission and send you and e-mail
-                soon.
-              </h1>
-            </BackgroundBox>
+          <BackgroundBox className="mt-2 md:mt-16">
+            <h1 className="mx-12 my-12 text-center text-3xl font-semibold text-black md:text-5xl">
+              Thanks for submitting.
+              <br /> We will review you submission and send you and e-mail soon.
+            </h1>
+          </BackgroundBox>
         </Container>
       </Layout>
     </>
