@@ -1,40 +1,32 @@
 import React from "react";
+import { GridProvider } from "./providers-grid";
+
 
 type ProviderCardProps = {
-  id: string;
-  name: string;
-  location: string[];
-  services: string[];
-  description: string;
-  imageUrl: string;
+  provider: GridProvider;
   onLocationClick: (location: string) => void;
   onServiceClick: (service: string) => void;
 };
 
 const ProviderCard: React.FC<ProviderCardProps> = ({
-  id,
-  name,
-  location,
-  services,
-  description,
-  imageUrl,
+  provider,
   onLocationClick,
   onServiceClick,
 }) => {
+  const { id, name, location, services, description } = provider;
   const handleLocationClick = (loc: string) => {
     onLocationClick(loc);
   };
-
   const handleServiceClick = (service: string) => {
     onServiceClick(service);
   };
 
   return (
     <div className="rounded-lg border bg-white p-4">
-      {imageUrl ? (
+      {provider.imageUrl ? (
         <img
-          src={imageUrl}
-          alt={name}
+          src={provider.imageUrl}
+          alt={name ?? ""}
           className="h-64 w-full rounded object-cover"
         />
       ) : (

@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { fetchProviders, fetchProviderImageUrl } from "../lib/api/api";
+import { Provider as PrismaProvider } from "@prisma/client";
 import ProviderCard from "./provider-card";
 
-type Provider = {
-  id: string;
-  name: string;
-  location: string[];
-  services: string[];
-  description?: string;
-  imageUrl?: string;
+export type GridProvider = PrismaProvider & {
+    imageUrl?: string;
 };
 
 const ProvidersGrid = () => {
-  const [providers, setProviders] = useState<Provider[]>([]);
+  const [providers, setProviders] = useState<GridProvider[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +17,7 @@ const ProvidersGrid = () => {
 
         // Fetch image URLs for each provider
         const dataWithImages = await Promise.all(
-          data.map(async (provider: Provider) => {
+          data.map(async (provider: GridProvider) => {
             return { ...provider, imageUrl: "" };
           })
         );
@@ -29,8 +25,8 @@ const ProvidersGrid = () => {
         setProviders(dataWithImages);
 
         await Promise.all(
-          dataWithImages.map(async (provider: Provider, index: number) => {
-            const imageUrl = await fetchProviderImageUrl(provider.id);
+          dataWithImages.map(async (provider: GridProvider, index: number) => {
+            const imageUrl = await fetchProviderImageUrl(provider.id.toString());
 
             const updatedProvider = { ...provider, imageUrl };
             setProviders((prevProviders) => {
@@ -52,20 +48,13 @@ const ProvidersGrid = () => {
     <div className="grid grid-cols-3 gap-4">
       {providers.map((provider) => (
         <ProviderCard
-          key={provider.id}
-          id={provider.id}
-          name={provider.name}
-          location={provider.location}
-          services={provider.services}
-          description={provider.description ?? ""}
-          imageUrl={provider.imageUrl ?? ""}
-          onLocationClick={function (location: string): void {
-            // TODO: Filter by Location
-          }}
-          onServiceClick={function (service: string): void {
-            // TODO: Filter by Service
-          }}
-        />
+              provider={provider}
+              onLocationClick={function (location: string): void {
+                  // TODO: Filter by Location
+              } }
+              onServiceClick={function (service: string): void {
+                  // TODO: Filter by Service
+              } }/>
       ))}
     </div>
   );

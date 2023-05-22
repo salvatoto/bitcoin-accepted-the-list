@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    //TODO: Temp pulling from `providers_intermediate` until chron job is set up
-    const providers = await prisma.providers_intermediate.findMany();
+    //TODO: Temp pulling from `ProviderStaging` until chron job is set up
+    const providers = await prisma.providerStaging.findMany();
 
     const modifiedProviders = providers.map((provider) => {
       return {
@@ -15,9 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         id: provider.id.toString(),
       };
     });
-
-    console.log("Delete.");
-    deleteAllProviders();
 
     res.status(200).json({ providers: modifiedProviders });
   } catch (error) {
