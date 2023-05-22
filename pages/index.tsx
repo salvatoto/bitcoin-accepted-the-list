@@ -9,27 +9,11 @@ export default function Index({}) {
 
   return (
     <>
-      <Layout>
-        <Head>
-          <title>{`Hal's List`}</title>
-        </Head>
-        <ProvidersGrid />
-      </Layout>
+      <Head>
+        <title>{`Hal's List`}</title>
+      </Head>
+      <ProvidersGrid />
+      {/* </> */}
     </>
   );
 }
-
-// export const getStaticProps = async () => {
-//   const allPosts = getAllPosts([
-//     "title",
-//     "date",
-//     "slug",
-//     "author",
-//     "coverImage",
-//     "excerpt",
-//   ]);
-
-//   return {
-//     props: { allPosts },
-//   };
-// };

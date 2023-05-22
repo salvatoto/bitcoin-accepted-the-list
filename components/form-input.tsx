@@ -1,4 +1,5 @@
-import { FormikProps } from "formik";
+import React from 'react';
+import { FormikProps } from 'formik';
 
 type Props = {
   id: string;
@@ -8,7 +9,7 @@ type Props = {
   inline?: boolean;
 };
 
-const FormInput = ({ id, label, error, formik, inline }: Props) => {
+const FormInput = React.forwardRef<HTMLInputElement, Props>(({ id, label, error, formik, inline }, ref) => {
   return (
     <div
       className={
@@ -16,6 +17,7 @@ const FormInput = ({ id, label, error, formik, inline }: Props) => {
       }
     >
       <input
+        ref={ref}
         className="input-peer-style peer"
         placeholder=" "
         type="text"
@@ -28,6 +30,6 @@ const FormInput = ({ id, label, error, formik, inline }: Props) => {
       {error ? <div className="input-error-style">{error}</div> : null}
     </div>
   );
-};
+});
 
 export default FormInput;

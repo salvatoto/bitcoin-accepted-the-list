@@ -1,40 +1,28 @@
 import Container from "./container";
 import cn from "classnames";
-import { EXAMPLE_PATH } from "../lib/constants";
 
 type Props = {
-  preview?: boolean;
+  alertMessage?: string;
+  backgroundColor?: string;
 };
 
-const Alert = ({ preview }: Props) => {
+const Alert = ({ alertMessage, backgroundColor }: Props) => {
+  if (!alertMessage) {
+    return null;
+  }
+
+  const alertClassName = cn(
+    "fixed top-0 left-0 w-full bg-red-400 border-b border-neutral-200 z-50",
+    backgroundColor
+  );
+
   return (
-    <div
-      className={cn("border-b", {
-        "border-neutral-800 bg-neutral-800 text-white": preview,
-        "border-neutral-200 bg-neutral-50": !preview,
-      })}
-    >
+    <div className={alertClassName}>
       <Container>
         <div className="py-2 text-center text-sm">
-          {preview ? (
-            <>
-              This page is a preview.{" "}
-              <a
-                href="/api/exit-preview"
-                className="underline transition-colors duration-200 hover:text-teal-300"
-              >
-                Click here
-              </a>{" "}
-              to exit preview mode.
-            </>
-          ) : (
-            <>
-              <a
-                href={``}
-                className="underline transition-colors duration-200 hover:text-blue-600"
-              ></a>
-            </>
-          )}
+          <p className="underline transition-colors duration-200 hover:text-blue-600">
+            {alertMessage}
+          </p>
         </div>
       </Container>
     </div>

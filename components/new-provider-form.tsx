@@ -1,23 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import FormInput from "./form-input";
 import FormTextArea from "./form-textarea";
 import FormImageInput from "./form-image-input";
 import { useRouter } from "next/navigation";
+import { AlertContext } from "@/contexts/AlertContext";
 
 // TODO:
 // 1. Add LNUrl
-// 2. Need an alert for invalid fields, and scroll to invalid field
 // 3. Also need to add a loading spinner
 
-const NewProviderForm = () => {
+const NewProviderForm = ({
+  updateAlertMessage,
+}: {
+  updateAlertMessage: (message: string) => void;
+}) => {
   const router = useRouter();
-  // const [name, setName] = useState("");
-  // const [description, setDescription] = useState("");
+  const { setAlertMessage } = useContext(AlertContext);
 
+  // Setup formik form
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -55,6 +59,8 @@ const NewProviderForm = () => {
       description: Yup.string().max(500, "Must be 500 characters or less"),
     }),
     onSubmit: async (values) => {
+      updateAlertMessage("");
+
       // 1. Create Provider call
       try {
         const response = await fetch("/api/createProvider", {
@@ -110,16 +116,61 @@ const NewProviderForm = () => {
     },
   });
 
+  // Manually trigger form submission so we can validate first and scroll to errors + show alert if errors
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    formik.validateForm().then((errors) => {
+      if (Object.keys(errors).length > 0) {
+        let firstErrorField = Object.keys(errors)[0];
+        let firstError = (errors as any)[firstErrorField];
+
+        // Update the alert message
+        updateAlertMessage(firstErrorField + ": " + firstError);
+
+        switch (firstErrorField) {
+          case "name":
+            nameInputRef.current && scrollToElement(nameInputRef.current, -40);
+            break;
+          case "location":
+            locationInputRef.current &&
+              scrollToElement(locationInputRef.current, -40);
+            break;
+          case "services":
+            servicesInputRef.current &&
+              scrollToElement(servicesInputRef.current, -40);
+            break;
+        }
+      } else {
+        // Clear the alert message when there are no form errors
+        updateAlertMessage("");
+        formik.submitForm();
+      }
+    });
+  };
+
+  // Refs for scrolling to input fields
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const locationInputRef = useRef<HTMLInputElement | null>(null);
+  const servicesInputRef = useRef<HTMLInputElement | null>(null);
+  const scrollToElement = (element: HTMLElement, offset: number) => {
+    const top =
+      element.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   return (
     <div className="mx-auto flex w-full flex-col items-center bg-neutral-300 py-8">
       <h1 className="text-center text-5xl font-semibold text-black">
         Get on the List!
       </h1>
+
       <form
         className="my-4 flex w-full flex-col p-6 px-16"
-        onSubmit={formik.handleSubmit}
+        onSubmit={handleSubmit}
       >
         <FormInput
+          ref={nameInputRef}
           id="name"
           label="Name"
           error={formik.touched.name && formik.errors.name}
@@ -127,6 +178,7 @@ const NewProviderForm = () => {
         />
 
         <FormInput
+          ref={locationInputRef}
           id="location"
           label="Location"
           error={formik.touched.location && formik.errors.location}
@@ -134,6 +186,7 @@ const NewProviderForm = () => {
         />
 
         <FormInput
+          ref={servicesInputRef}
           id="services"
           label="Services"
           error={formik.touched.services && formik.errors.services}
