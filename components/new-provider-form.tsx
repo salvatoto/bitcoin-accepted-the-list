@@ -12,7 +12,6 @@ import { createProvider, uploadProfilePhoto } from "../lib/api/api";
 
 // TODO:
 // 1. Add LNUrl
-// 3. Also need to add a loading spinner
 
 const NewProviderForm = ({
   updateAlertMessage,
@@ -20,6 +19,7 @@ const NewProviderForm = ({
   updateAlertMessage: (message: string) => void;
 }) => {
   const router = useRouter();
+  const [progress, setProgress] = useState(0);
   const { setAlertMessage } = useContext(AlertContext);
 
   // Setup formik form
@@ -62,34 +62,32 @@ const NewProviderForm = ({
     onSubmit: async (values, { setSubmitting }) => {
       updateAlertMessage("");
       setSubmitting(true);
-    
+
       try {
         // 1. Create Provider call
         const providerData = await createProvider(values);
-    
-        console.log(
-          "FORM] Success - created provider, now uploading profile photo"
-        );
-    
-        // 2. Upload Profile Photo call
+        console.log("FORM] Success - created provider, now uploading profile photo:", values.profile_photo_file);
+
+        // 2. Upload Profile Photo call (if there is one)
         if (values.profile_photo_file) {
+          console.log("[FOTO] sending photo");
           const userId = providerData.userId;
           const photoData = await uploadProfilePhoto(
             values.profile_photo_file,
             userId
           );
-    
           console.log("[FOTO] Photo uploaded successfully.");
-          console.log("[FORM] Form submitted successfully. Redirecting...");
-    
-          // 3. Route upon completion
-          router.push("/form-completion");
         }
+        console.log("[FORM] Form submitted successfully. Redirecting...");
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error("FORM] Error submitting form:", error);
         alert("An error occurred while submitting the form");
       } finally {
+
+        // 3. Route upon completion
+        router.push("/form-completion");
         setSubmitting(false);
+        setProgress(100);
       }
     },
   });
@@ -106,6 +104,8 @@ const NewProviderForm = ({
         // Update the alert message
         updateAlertMessage(firstErrorField + ": " + firstError);
 
+        // And scroll to each error field
+        // TODO: Add the remaining fields
         switch (firstErrorField) {
           case "name":
             nameInputRef.current && scrollToElement(nameInputRef.current, -40);
@@ -120,7 +120,6 @@ const NewProviderForm = ({
             break;
         }
       } else {
-        // Clear the alert message when there are no form errors
         updateAlertMessage("");
         formik.submitForm();
       }
@@ -136,6 +135,20 @@ const NewProviderForm = ({
       element.getBoundingClientRect().top + window.pageYOffset + offset;
     window.scrollTo({ top, behavior: "smooth" });
   };
+
+  // Progress bar for Submit button
+  useEffect(() => {
+    if (formik.isSubmitting) {
+      setProgress(0);
+
+      // After a timeout, set the progress to 80%
+      const timeoutId = setTimeout(() => {
+        setProgress(90);
+      }, 100); // You can adjust the time here
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formik.isSubmitting]);
 
   return (
     <div className="mx-auto flex w-full flex-col items-center bg-neutral-300 py-8">
@@ -238,21 +251,19 @@ const NewProviderForm = ({
           }
         />
 
-        {/* <div
-            className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-            id="user_avatar_help"
+        <div className="relative mt-16 inline-block overflow-hidden rounded-md bg-gray-700 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2">
+          <button
+            className="relative z-10 flex w-full items-center justify-center"
+            type="submit"
+            disabled={formik.isSubmitting}
           >
-            A profile picture is useful to confirm your are logged into your
-            account
-          </div> */}
-
-        <button
-          className="mt-16 rounded-md bg-gray-600 px-6 py-3 text-lg font-semibold text-white focus:outline-none focus:ring-2"
-          type="submit"
-          disabled={formik.isSubmitting}
-        >
-          Submit
-        </button>
+            Submit
+          </button>
+          <div
+            className="absolute left-0 top-0 h-full bg-orange-600"
+            style={{ width: `${progress}%`, transition: "width 2s ease" }}
+          ></div>
+        </div>
       </form>
     </div>
   );
