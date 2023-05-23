@@ -9,7 +9,7 @@ type Props = {
 
 const FormTextArea = ({ id, label, error, formik }: Props) => {
   return (
-    <div className="input-div-style group">
+    <div className="group relative z-0 mb-12 w-full">
       <textarea
         className="textarea-peer-style peer"
         placeholder=" "

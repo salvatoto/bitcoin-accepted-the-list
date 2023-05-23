@@ -21,23 +21,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } = req.body;
 
   try {
-    const provider: ProviderStaging =
-      await prisma.providerStaging.create({
-        data: {
-          name,
-          location,
-          services,
-          phone,
-          email,
-          website,
-          nostr,
-          twitter,
-          instagram,
-          languages,
-          profile_url,
-          description,
-        },
-      });
+    const provider: ProviderStaging = await prisma.providerStaging.create({
+      data: {
+        name,
+        location,
+        services,
+        phone,
+        email,
+        website,
+        nostr,
+        twitter,
+        instagram,
+        languages,
+        profile_url,
+        description,
+      },
+    });
 
     res.status(200).json({ userId: provider.id.toString() });
   } catch (error) {

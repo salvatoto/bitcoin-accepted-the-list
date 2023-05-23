@@ -1,7 +1,6 @@
 import React from "react";
 import { GridProvider } from "./providers-grid";
 
-
 type ProviderCardProps = {
   provider: GridProvider;
   onLocationClick: (location: string) => void;

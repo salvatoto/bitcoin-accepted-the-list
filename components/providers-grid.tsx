@@ -4,7 +4,7 @@ import { Provider as PrismaProvider } from "@prisma/client";
 import ProviderCard from "./provider-card";
 
 export type GridProvider = PrismaProvider & {
-    imageUrl?: string;
+  imageUrl?: string;
 };
 
 const ProvidersGrid = () => {
@@ -26,7 +26,9 @@ const ProvidersGrid = () => {
 
         await Promise.all(
           dataWithImages.map(async (provider: GridProvider, index: number) => {
-            const imageUrl = await fetchProviderImageUrl(provider.id.toString());
+            const imageUrl = await fetchProviderImageUrl(
+              provider.id.toString()
+            );
 
             const updatedProvider = { ...provider, imageUrl };
             setProviders((prevProviders) => {
@@ -48,13 +50,14 @@ const ProvidersGrid = () => {
     <div className="grid grid-cols-3 gap-4">
       {providers.map((provider) => (
         <ProviderCard
-              provider={provider}
-              onLocationClick={function (location: string): void {
-                  // TODO: Filter by Location
-              } }
-              onServiceClick={function (service: string): void {
-                  // TODO: Filter by Service
-              } }/>
+          provider={provider}
+          onLocationClick={function (location: string): void {
+            // TODO: Filter by Location
+          }}
+          onServiceClick={function (service: string): void {
+            // TODO: Filter by Service
+          }}
+        />
       ))}
     </div>
   );

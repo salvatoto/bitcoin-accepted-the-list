@@ -9,9 +9,14 @@ import FormImageInput from "./form-image-input";
 import { useRouter } from "next/navigation";
 import { AlertContext } from "@/contexts/AlertContext";
 import { createProvider, uploadProfilePhoto } from "../lib/api/api";
+import FormToggle from "./form-toggle";
 
 // TODO:
-// 1. Add LNUrl
+// 0. Change "Bitcoin Accepted Here" logo to orange when checked
+// 1. Add LNUrl field
+// 2. Add Languages field
+// 3. Add preview on Submit
+// 4. Hide some fields initially? It's overwhelming
 
 const NewProviderForm = ({
   updateAlertMessage,
@@ -34,6 +39,7 @@ const NewProviderForm = ({
       nostr: "",
       twitter: "",
       instagram: "",
+      payments_accepted: true,
       languages: "",
       description: "",
       profile_photo_file: null,
@@ -57,6 +63,7 @@ const NewProviderForm = ({
       nostr: Yup.string(),
       twitter: Yup.string(),
       instgram: Yup.string(),
+      payments_accepted: Yup.boolean().oneOf([true], "Don't Shitcoin."),
       description: Yup.string().max(500, "Must be 500 characters or less"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
@@ -66,7 +73,10 @@ const NewProviderForm = ({
       try {
         // 1. Create Provider call
         const providerData = await createProvider(values);
-        console.log("FORM] Success - created provider, now uploading profile photo:", values.profile_photo_file);
+        console.log(
+          "FORM] Success - created provider, now uploading profile photo:",
+          values.profile_photo_file
+        );
 
         // 2. Upload Profile Photo call (if there is one)
         if (values.profile_photo_file) {
@@ -83,7 +93,6 @@ const NewProviderForm = ({
         console.error("FORM] Error submitting form:", error);
         alert("An error occurred while submitting the form");
       } finally {
-
         // 3. Route upon completion
         router.push("/form-completion");
         setSubmitting(false);
@@ -92,41 +101,51 @@ const NewProviderForm = ({
     },
   });
 
-  // Manually trigger form submission so we can validate first and scroll to errors + show alert if errors
-  const handleSubmit = (e: React.FormEvent) => {
+
+  // Manul form validation so we can validate first before formik and scroll to errors + show alert if errors
+  const validateForm = async () => {
+    const errors = await formik.validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      let firstErrorField = Object.keys(errors)[0];
+      let firstError = (errors as any)[firstErrorField];
+
+      // Update the alert message
+      updateAlertMessage(`ERROR: ${firstErrorField} - "${firstError}"`);
+
+      // And scroll to each error field
+      // TODO: Add the remaining fields
+      switch (firstErrorField) {
+        case "name":
+          nameInputRef.current && scrollToElement(nameInputRef.current, -40);
+          break;
+        case "location":
+          locationInputRef.current &&
+            scrollToElement(locationInputRef.current, -40);
+          break;
+        case "services":
+          servicesInputRef.current &&
+            scrollToElement(servicesInputRef.current, -40);
+          break;
+      }
+      return false;
+    } else {
+      updateAlertMessage("");
+      return true;
+    }
+  };
+
+  // Manually trigger form submission so we can validate first before formik and scroll to errors + show alert if errors
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    formik.validateForm().then((errors) => {
-      if (Object.keys(errors).length > 0) {
-        let firstErrorField = Object.keys(errors)[0];
-        let firstError = (errors as any)[firstErrorField];
-
-        // Update the alert message
-        updateAlertMessage(firstErrorField + ": " + firstError);
-
-        // And scroll to each error field
-        // TODO: Add the remaining fields
-        switch (firstErrorField) {
-          case "name":
-            nameInputRef.current && scrollToElement(nameInputRef.current, -40);
-            break;
-          case "location":
-            locationInputRef.current &&
-              scrollToElement(locationInputRef.current, -40);
-            break;
-          case "services":
-            servicesInputRef.current &&
-              scrollToElement(servicesInputRef.current, -40);
-            break;
-        }
-      } else {
-        updateAlertMessage("");
-        formik.submitForm();
-      }
-    });
+    if(await validateForm()){
+      formik.submitForm();
+    }
   };
 
   // Refs for scrolling to input fields
+  // TODO: Add the remaining fields here as well
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const locationInputRef = useRef<HTMLInputElement | null>(null);
   const servicesInputRef = useRef<HTMLInputElement | null>(null);
@@ -244,6 +263,21 @@ const NewProviderForm = ({
           error={formik.touched.description && formik.errors.description}
           formik={formik}
         />
+
+        <label htmlFor="payments-accepted" className="input-label-plain-style">
+          Payments Accepted
+        </label>
+        <div className=" mb-8 rounded border-2 border-gray-600 bg-white p-4 shadow">
+          <FormToggle
+            id="payments_accepted"
+            imageUrl="bitcoin_accepted_black.png"
+            error={
+              formik.touched.payments_accepted &&
+              formik.errors.payments_accepted
+            }
+            formik={formik}
+          />
+        </div>
 
         <FormImageInput
           onImageCropped={(croppedImage) =>
