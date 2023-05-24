@@ -15,4 +15,9 @@ module.exports = {
     },
   },
   plugins: [],
+  variants: {
+    extend: {
+      lineClamp: ["responsive"],
+    },
+  },
 };

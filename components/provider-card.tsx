@@ -33,7 +33,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
       )}
       <h2 className="mb-4 mt-4 text-xl font-bold">{name}</h2>
       <div>
-        <h4 className="card-element-title-style">Location</h4>
+        {/* <h4 className="card-element-title-style">Location</h4> */}
         <p className="font-semibold">
           {location.map((loc) => (
             <button
@@ -60,10 +60,12 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
           ))}
         </div>
       </div>
-      <div className="mt-2">
-        <h4 className="card-element-title-style">Description</h4>
-        <p className="mt-1">{description}</p>
-      </div>
+      {description && (
+        <div className="mt-2">
+          <h4 className="card-element-title-style">Description</h4>
+          <p className="mt-1 line-clamp-3">{description}</p>
+        </div>
+      )}
     </div>
   );
 };
