@@ -6,6 +6,7 @@ import Container from "../components/container";
 import Intro from "../components/intro";
 import type { AppProps } from "next/app";
 import Layout from "@/components/layout";
+import Head from "next/head";
 import { AlertContext } from "@/contexts/AlertContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -23,6 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AlertContext.Provider value={{ alertMessage, setAlertMessage }}>
       <Layout>
         <Container>
+          <Head>
+            <title>Hal's List</title>
+          </Head>
           <Intro showGetOnListLink={showGetOnListLink} />
           <Component {...pageProps} />
         </Container>
