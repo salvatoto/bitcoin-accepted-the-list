@@ -1,3 +1,14 @@
+export async function fetchProvider(id: string | string[]) {
+  const response = await fetch(`/api/getProvider?id=${id}`);
+  
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const data = await response.json();
+  return data.provider;
+}
+
 export async function fetchProviders() {
   const response = await fetch("/api/getProviders");
   if (!response.ok) {

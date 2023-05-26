@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { deleteAllProviders } from "@/dev/deleteProviders";
+import { deleteAllProviders, deleteProvidersWithNoServices } from "@/dev/deleteProviders";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         id: provider.id.toString(),
       };
     });
+
+    deleteProvidersWithNoServices();
 
     res.status(200).json({ providers: modifiedProviders });
   } catch (error) {

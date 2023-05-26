@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchProviders, fetchProviderImageUrl } from "../lib/api/api";
 import { Provider as PrismaProvider } from "@prisma/client";
@@ -13,23 +14,17 @@ const ProvidersGrid = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch providers
         const data = await fetchProviders();
+        setProviders(data);
 
-        // Fetch image URLs for each provider
-        const dataWithImages = await Promise.all(
-          data.map(async (provider: GridProvider) => {
-            return { ...provider, imageUrl: "" };
-          })
-        );
-
-        setProviders(dataWithImages);
-
+        // Fetch images
         await Promise.all(
-          dataWithImages.map(async (provider: GridProvider, index: number) => {
+          data.map(async (provider: GridProvider, index: number) => {
             const imageUrl = await fetchProviderImageUrl(
               provider.id.toString()
             );
-
+        
             const updatedProvider = { ...provider, imageUrl };
             setProviders((prevProviders) => {
               const updatedProviders = [...prevProviders];
@@ -49,15 +44,26 @@ const ProvidersGrid = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {providers.map((provider) => (
-        <ProviderCard
-          provider={provider}
-          onLocationClick={function (location: string): void {
-            // TODO: Filter by Location
-          }}
-          onServiceClick={function (service: string): void {
-            // TODO: Filter by Service
-          }}
-        />
+              <Link 
+              key={provider.id.toString()} 
+              href={{ 
+                pathname: "/provider-detail", 
+                query: { id: provider.id.toString() } // pass provider id as query parameter
+              }}
+              legacyBehavior
+            >
+        <a>
+          <ProviderCard
+            provider={provider}
+            onLocationClick={function (location: string): void {
+              // TODO: Filter by Location
+            }}
+            onServiceClick={function (service: string): void {
+              // TODO: Filter by Service
+            }}
+          />
+        </a>
+      </Link>
       ))}
     </div>
   );

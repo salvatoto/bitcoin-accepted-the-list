@@ -18,6 +18,8 @@ import FormToggle from "./form-toggle";
 // 3. Add preview on Submit
 // 4. Hide some fields initially? It's overwhelming
 
+// 5. Remove top alert when input is fixed, or simply when user re-blurs that field. This probably requires added hooks to `onChange` or `onBlur` in FormInput (and the the form elemeents), to then call `validateForm()` in this component.
+
 const NewProviderForm = ({
   updateAlertMessage,
 }: {
@@ -101,7 +103,6 @@ const NewProviderForm = ({
     },
   });
 
-
   // Manul form validation so we can validate first before formik and scroll to errors + show alert if errors
   const validateForm = async () => {
     const errors = await formik.validateForm();
@@ -139,7 +140,7 @@ const NewProviderForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if(await validateForm()){
+    if (await validateForm()) {
       formik.submitForm();
     }
   };

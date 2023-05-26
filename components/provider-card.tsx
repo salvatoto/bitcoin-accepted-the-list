@@ -21,7 +21,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
   };
 
   return (
-    <div className="rounded-lg border bg-white p-4">
+  <div className="rounded-lg border bg-white p-4 flex flex-col h-full">
       {provider.imageUrl ? (
         <img
           src={provider.imageUrl}
