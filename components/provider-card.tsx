@@ -1,5 +1,7 @@
 import React from "react";
 import { GridProvider } from "./providers-grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMap, faUserNinja } from "@fortawesome/free-solid-svg-icons";
 
 type ProviderCardProps = {
   provider: GridProvider;
@@ -22,7 +24,26 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
 
   return (
     <div className="flex h-full flex-col rounded-lg border bg-white p-4">
-      {provider.imageUrl ? (
+
+      {/* Image */}
+      <div className="relative h-64 w-full">
+  {provider.imageUrl ? (
+    <img
+      src={provider.imageUrl}
+      alt={name ?? ""}
+      className="h-64 w-full rounded object-cover"
+    />
+  ) : (
+    <div className="h-64 w-full rounded bg-gray-200"></div>
+  )}
+  <img
+    src="/bitcoin_accepted_hand.png"
+    alt="Watermark"
+    className="absolute bottom-3 right-2 h-10 w-auto opacity-40" 
+  />
+</div>
+
+      {/* {provider.imageUrl ? (
         <img
           src={provider.imageUrl}
           alt={name ?? ""}
@@ -30,11 +51,42 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
         />
       ) : (
         <div className="h-64 w-full rounded bg-gray-200"></div>
-      )}
+      )} */}
+
+      {/* Name */}
       <h2 className="mb-4 mt-4 text-xl font-bold">{name}</h2>
-      <div>
-        {/* <h4 className="card-element-title-style">Location</h4> */}
-        <p className="font-semibold">
+
+      {/* Line Separator */}
+      <div className="mx-auto w-4/6 border-b-2 border-green-500 opacity-75 lg:mx-0"></div>
+
+      {/* Services */}
+      <div className="ml-1 mt-4 flex items-center">
+        <FontAwesomeIcon
+          icon={faUserNinja}
+          className="text-md mr-2 h-4 fill-current text-green-700"
+          style={{ minWidth: "2.5em" }}
+        />
+        <div className="flex flex-wrap">
+          {services.map((service) => (
+            <button
+              key={service}
+              className="card-element-button font-semibold"
+              onClick={() => handleServiceClick(service)}
+            >
+              {service}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Location */}
+      <div className="ml-1 mt-2">
+        <p>
+          <FontAwesomeIcon
+            icon={faMap}
+            className="text-md mr-2 h-4 fill-current text-green-700"
+            style={{ minWidth: "2.5em" }}
+          />
           {location.map((loc) => (
             <button
               key={loc}
@@ -46,24 +98,12 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
           ))}
         </p>
       </div>
-      <div>
-        <h4 className="card-element-title-style">Services</h4>
-        <div className="flex flex-wrap">
-          {services.map((service) => (
-            <button
-              key={service}
-              className="card-element-button"
-              onClick={() => handleServiceClick(service)}
-            >
-              {service}
-            </button>
-          ))}
-        </div>
-      </div>
+
+      {/* Description */}
       {description && (
         <div className="mt-2">
-          <h4 className="card-element-title-style">Description</h4>
-          <p className="mt-1 line-clamp-3">{description}</p>
+          {/* <h4 className="card-element-title-style">Description</h4> */}
+          <p className="mt-4 line-clamp-3">{description}</p>
         </div>
       )}
     </div>

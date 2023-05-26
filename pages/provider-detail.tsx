@@ -5,7 +5,6 @@ import { GridProvider } from "../components/providers-grid";
 import { fetchProvider, fetchProviderImageUrl } from "../lib/api/api";
 import Icon, { IconType } from "@/components/icons/icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import {
   faEnvelope,
   faMap,

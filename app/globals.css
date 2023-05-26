@@ -26,7 +26,7 @@ body {
 }
 
 .card-element-button {
-  @apply mb-2 mr-2 rounded border border-transparent py-0 text-lg font-semibold text-orange-600 transition-colors hover:text-orange-600 focus:outline-none active:text-orange-900;
+  @apply mr-2 rounded border border-transparent py-0 text-base text-gray-800 transition-colors hover:text-orange-600 focus:outline-none active:text-orange-900;
 }
 
 /* NEW PROVIDER FORM STYLES */
@@ -91,5 +91,5 @@ body {
 }
 
 .contact-icon-inactive-style {
-  @apply h-7 fill-current text-gray-400 cursor-default;
+  @apply h-7 cursor-default fill-current text-gray-400;
 }
