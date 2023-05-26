@@ -1,102 +1,207 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { GridProvider } from '../components/providers-grid'
-import { fetchProvider } from '../lib/api/api'
-import Icon, { IconType } from '@/components/icons/icon'
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { GridProvider } from "../components/providers-grid";
+import { fetchProvider, fetchProviderImageUrl } from "../lib/api/api";
+import Icon, { IconType } from "@/components/icons/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import {
+  faEnvelope,
+  faMap,
+  faUserNinja,
+} from "@fortawesome/free-solid-svg-icons";
 
-// TODO: 
-// 1. Load photo
-// 1. Change to orange
+// TODO:
+// 0. Add whatsapp icon
+// 1. Contact is phone first, then WhatsApp, then email, then disabled
 // 2. Loading spinner
-// 4. Figure out what to do with image size
 // 5. Hook up remaining fields
-// 6. Hook up social buttons
 
+// TODO:  later
+// 6. Add image carousel
 
 const ProviderDetail: React.FC = () => {
-  const router = useRouter()
-  const [provider, setProvider] = useState<GridProvider | null>(null)
+  const router = useRouter();
+  const [provider, setProvider] = useState<GridProvider | null>(null);
 
   useEffect(() => {
-    if (router.query.id) {
-      fetchProvider(router.query.id).then(setProvider);
-    }
-  }, [router.query.id])
+    const fetchData = async () => {
+      if (router.query.id) {
+        try {
+          const fetchedProvider = await fetchProvider(router.query.id);
+          const imageUrl = await fetchProviderImageUrl(
+            router.query.id.toString()
+          );
+          setProvider({ ...fetchedProvider, imageUrl });
+        } catch (error) {
+          console.error("Error fetching provider:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [router.query.id]);
 
   if (!provider) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
-  const { id, name, location, services, description } = provider
+  const {
+    id,
+    name,
+    location,
+    services,
+    description,
+    email,
+    phone,
+    twitter,
+    instagram,
+    website,
+    nostr,
+    imageUrl,
+  } = provider;
 
   return (
-    <div className="max-w-4xl flex items-start h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-16">
-
+    <div className="mx-auto my-32 flex h-auto max-w-full flex-wrap items-start lg:my-16 lg:h-screen">
       {/* Main Col */}
-      <div id="profile" className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
-        <div className="p-4 md:p-12 text-center lg:text-left">
-
-          {/* Image for mobile view  */}
-          <div className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center">
-            <Image 
-              src='/bitcoin_logo_00.png'
-              alt='Profile picture'
-              width={500}
-              height={500}
+      <div
+        id="profile"
+        className="mx-6 w-full rounded-lg bg-white shadow-2xl lg:mx-0 lg:w-1/2 lg:rounded-lg"
+      >
+        <div className="p-4 text-center md:p-12 lg:text-left">
+          {/* Image for mobile view */}
+          <div className="mx-auto -mt-16 block h-48 w-48 rounded-full bg-cover bg-center shadow-xl lg:hidden">
+            <Image
+              src={imageUrl || "/bitcoin_logo_00.png"}
+              alt="Image"
+              width={200}
+              height={200}
+              className="rounded-full shadow-xl"
             />
           </div>
 
-          <h1 className="text-3xl font-bold pt-8 lg:pt-0">{name}</h1>
-          <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-          <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-            <svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"/>
-            </svg>
-            {services.join(', ')}
+          {/* Details */}
+          <h1 className="pt-8 text-3xl font-bold lg:pt-0">{name}</h1>
+          <div className="mx-auto w-4/5 border-b-2 border-green-500 pt-3 opacity-25 lg:mx-0"></div>
+          <p className="flex items-center justify-center pt-4 text-base font-bold lg:justify-start">
+            <FontAwesomeIcon
+              icon={faUserNinja}
+              className="text-md h-4 fill-current pr-4 text-green-700"
+              style={{ minWidth: "2.5em" }}
+            />
+            {services.join(", ")}
           </p>
-          <p className="pt-2 text-gray-600 text-sm lg:text-base flex items-center justify-center lg:justify-start"><svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"/></svg> 
-            {location}</p>
-			    <p className="pt-8 text-sm">{description}</p>
+          <p className="flex items-center justify-center pt-2 text-sm text-gray-600 lg:justify-start lg:text-base">
+            <FontAwesomeIcon
+              icon={faMap}
+              className="text-md h-4 fill-current pr-4 text-green-700"
+              style={{ minWidth: "2.5em" }}
+            />
+            {location}
+          </p>
+          <p className="pt-8 text-sm">{description}</p>
 
-			    <div className="pt-12 pb-8">
-				    <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
-				      Get In Touch
-				    </button> 
-			    </div>
-          
-          <div className="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between">
-          <a className="link" href="#" data-tippy-content="@whatsapp_handle">
-              <Icon type={IconType.WHATSAPP} className="contact-icon-style" />
-            </a>         
-            {/* <a className="link" href="#" data-tippy-content="@facebook_handle">
-              <Icon type={IconType.FACEBOOK} className="contact-icon-style" />
-            </a> */}
-            <a className="link" href="#" data-tippy-content="@twitter_handle">
-              <Icon type={IconType.TWITTER} className="contact-icon-style" />
-            </a>
-            <a className="link" href="#" data-tippy-content="@instagram_handle">
-              <Icon type={IconType.INSTAGRAM} className="contact-icon-style" />
-            </a>
-            <a className="link" href="#" data-tippy-content="@github_handle">
-              <Icon type={IconType.GITHUB} className="contact-icon-style" />
-            </a>
-            <a className="link" href="#" data-tippy-content="@nostr_handle">
-              <Icon type={IconType.NOSTR} className="contact-icon-style" />
+          <div className="pb-8 pt-12">
+            <a
+              href={`whatsapp://send?phone=${phone}`}
+              className="inline-block rounded-full bg-green-700 px-4 py-2 text-center font-bold text-white hover:bg-green-900"
+            >
+              Get In Touch
             </a>
           </div>
+
+          <div className="mx-auto mt-6 flex w-4/5 flex-wrap items-center justify-between pb-16 lg:w-full lg:pb-0">
+            <a
+              className="link"
+              href={email ? `mailto:${email}` : ""}
+              data-tippy-content={`@${email}`}
+              onClick={email ? undefined : (e) => e.preventDefault()}
+            >
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className={
+                  email ? `contact-icon-style` : `contact-icon-inactive-style`
+                }
+              />
+            </a>
+            <a
+              className="link"
+              href={website ? `${website}` : ""}
+              data-tippy-content={`@${website}`}
+              onClick={website ? undefined : (e) => e.preventDefault()}
+            >
+              <Icon
+                type={IconType.WEBSITE}
+                className={
+                  website ? `contact-icon-style` : `contact-icon-inactive-style`
+                }
+              />
+            </a>
+            <a
+              className="link"
+              href={twitter ? `https://twitter.com/${twitter}` : ""}
+              data-tippy-content={`@${twitter}`}
+              onClick={twitter ? undefined : (e) => e.preventDefault()}
+            >
+              <Icon
+                type={IconType.TWITTER}
+                className={
+                  twitter ? `contact-icon-style` : `contact-icon-inactive-style`
+                }
+              />
+            </a>
+            <a
+              className="link"
+              href={instagram ? `https://instagram.com/${instagram}` : ""}
+              data-tippy-content={`@${instagram}`}
+              onClick={instagram ? undefined : (e) => e.preventDefault()}
+            >
+              <Icon
+                type={IconType.INSTAGRAM}
+                className={
+                  instagram
+                    ? `contact-icon-style`
+                    : `contact-icon-inactive-style`
+                }
+              />
+            </a>
+            <a
+              className="link"
+              href={nostr ? `https://nostr.com/${nostr}` : ""}
+              data-tippy-content={`@${nostr}`}
+              onClick={nostr ? undefined : (e) => e.preventDefault()}
+            >
+              <Icon
+                type={IconType.NOSTR}
+                className={
+                  nostr ? `contact-icon-style` : `contact-icon-inactive-style`
+                }
+              />
+            </a>
           </div>
+        </div>
       </div>
 
-    {/* Img Col */}
-	  <div className="w-full lg:w-2/5">
-      {/*  Big profile image for side bar (desktop) */}
-      <img src="/bitcoin_logo_00.png" className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"></img>
-      {/*  Image from: http://unsplash.com/photos/MP0IUfwrn0A */}
-	  </div>
-    
+      {/* Img Col */}
+      <div className="w-full lg:mx-8 lg:w-2/5">
+        {/* Big profile image for side bar (desktop) */}
+        <img
+          src={imageUrl || "/bitcoin_logo_00.png"}
+          className="hidden rounded-none shadow-2xl lg:block lg:rounded-lg "
+          style={{ width: "400px", height: "400px" }}
+        />
+
+        {/* Bitcoin accepted logo - Placeholder for image carousel */}
+        <img
+          className="mt-8 hidden w-full rounded-lg bg-gray-200 p-4 shadow-lg lg:block"
+          src="/bitcoin_accepted_black.png"
+          style={{ maxWidth: "400px" }}
+          alt="Bitcoin Accepted Here"
+        />
+      </div>
     </div>
   );
-}
+};
 
-export default ProviderDetail
+export default ProviderDetail;
