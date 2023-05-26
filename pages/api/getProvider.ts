@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  
+
   if (!id) {
     res.status(400).json({ error: 'Missing "id" query parameter' });
     return;
@@ -23,7 +23,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    res.status(200).json({ provider: { ...provider, id: String(provider.id) } });
+    res
+      .status(200)
+      .json({ provider: { ...provider, id: String(provider.id) } });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

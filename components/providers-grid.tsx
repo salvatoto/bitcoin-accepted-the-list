@@ -24,7 +24,7 @@ const ProvidersGrid = () => {
             const imageUrl = await fetchProviderImageUrl(
               provider.id.toString()
             );
-        
+
             const updatedProvider = { ...provider, imageUrl };
             setProviders((prevProviders) => {
               const updatedProviders = [...prevProviders];
@@ -44,26 +44,26 @@ const ProvidersGrid = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {providers.map((provider) => (
-              <Link 
-              key={provider.id.toString()} 
-              href={{ 
-                pathname: "/provider-detail", 
-                query: { id: provider.id.toString() } // pass provider id as query parameter
+        <Link
+          key={provider.id.toString()}
+          href={{
+            pathname: "/provider-detail",
+            query: { id: provider.id.toString() }, // pass provider id as query parameter
+          }}
+          legacyBehavior
+        >
+          <a>
+            <ProviderCard
+              provider={provider}
+              onLocationClick={function (location: string): void {
+                // TODO: Filter by Location
               }}
-              legacyBehavior
-            >
-        <a>
-          <ProviderCard
-            provider={provider}
-            onLocationClick={function (location: string): void {
-              // TODO: Filter by Location
-            }}
-            onServiceClick={function (service: string): void {
-              // TODO: Filter by Service
-            }}
-          />
-        </a>
-      </Link>
+              onServiceClick={function (service: string): void {
+                // TODO: Filter by Service
+              }}
+            />
+          </a>
+        </Link>
       ))}
     </div>
   );

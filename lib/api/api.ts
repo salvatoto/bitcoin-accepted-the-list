@@ -1,6 +1,6 @@
 export async function fetchProvider(id: string | string[]) {
   const response = await fetch(`/api/getProvider?id=${id}`);
-  
+
   if (!response.ok) {
     throw new Error(response.statusText);
   }

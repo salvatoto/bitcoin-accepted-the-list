@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { deleteAllProviders, deleteProvidersWithNoServices } from "@/dev/deleteProviders";
+import {
+  deleteAllProviders,
+  deleteProvidersWithNoServices,
+} from "@/dev/deleteProviders";
 
 const prisma = new PrismaClient();
 

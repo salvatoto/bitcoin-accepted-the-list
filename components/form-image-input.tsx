@@ -17,8 +17,8 @@ const FormImageInput = ({ onImageCropped }: Props) => {
         image.src = reader.result as string;
         image.onload = async () => {
           const cropResult = await smartcrop.crop(image, {
-            width: 200,
-            height: 200,
+            width: 600,
+            height: 600,
           });
           const { blob, dataUrl } = await cropImage(image, cropResult.topCrop);
           setImagePreview(dataUrl);

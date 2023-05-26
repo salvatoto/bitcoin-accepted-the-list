@@ -27,7 +27,7 @@ const FormInput = React.forwardRef<HTMLInputElement, Props>(
         />
         <label htmlFor={id} className="input-label-peer-style">
           {label}
-        </label>  
+        </label>
         {error ? <div className="input-error-style">{error}</div> : null}
       </div>
     );
