@@ -57,7 +57,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
       <h2 className="mb-4 mt-4 text-xl font-bold">{name}</h2>
 
       {/* Line Separator */}
-      <div className="mx-auto w-4/6 border-b-2 border-green-500 opacity-75 lg:mx-0"></div>
+      <div className="w-4/6 border-b-2 border-green-500 opacity-75 mx-0"></div>
 
       {/* Services */}
       <div className="ml-1 mt-4 flex items-center">
@@ -80,13 +80,13 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
       </div>
 
       {/* Location */}
-      <div className="ml-1 mt-2">
-        <p>
+      <div className="ml-1 mt-2 flex items-center">
           <FontAwesomeIcon
             icon={faMap}
             className="text-md mr-2 h-4 fill-current text-green-700"
             style={{ minWidth: "2.5em" }}
           />
+          <div className="flex flex-wrap">
           {location.map((loc) => (
             <button
               key={loc}
@@ -96,7 +96,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
               {loc}
             </button>
           ))}
-        </p>
+          </div>
       </div>
 
       {/* Description */}
