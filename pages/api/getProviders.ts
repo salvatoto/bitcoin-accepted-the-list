@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
+const SITCOM = process.env.SITCOM === 'true'; 
+
 const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -8,6 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const providers = await prisma.provider.findMany({
       where: {
         approved: true,
+        is_sitcom: SITCOM ? true : false
       },
     });
     
