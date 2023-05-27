@@ -42,3 +42,5 @@ next-env.d.ts
 
 # dev
 /dev
+/lib/api/dev
+/page/api/dev

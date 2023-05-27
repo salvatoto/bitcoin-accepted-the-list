@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const provider = await prisma.providerStaging.findUnique({
+    const provider = await prisma.provider.findUnique({
       where: {
         id: Number(id),
       },

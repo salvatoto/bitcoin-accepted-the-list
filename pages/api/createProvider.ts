@@ -1,4 +1,4 @@
-import { PrismaClient, ProviderStaging } from "@prisma/client";
+import { PrismaClient, Provider } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } = req.body;
 
   try {
-    const provider: ProviderStaging = await prisma.providerStaging.create({
+    const provider: Provider = await prisma.provider.create({
       data: {
         name,
         location,
