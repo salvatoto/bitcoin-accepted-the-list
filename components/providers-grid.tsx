@@ -42,7 +42,7 @@ const ProvidersGrid = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mb-16 md:grid-cols-3 lg:grid-cols-4">
       {providers.map((provider) => (
         <Link
           key={provider.id.toString()}

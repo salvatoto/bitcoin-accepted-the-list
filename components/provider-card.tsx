@@ -24,24 +24,23 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
 
   return (
     <div className="flex h-full flex-col rounded-lg border bg-white p-4">
-
       {/* Image */}
       <div className="relative h-64 w-full">
-  {provider.imageUrl ? (
-    <img
-      src={provider.imageUrl}
-      alt={name ?? ""}
-      className="h-64 w-full rounded object-cover"
-    />
-  ) : (
-    <div className="h-64 w-full rounded bg-gray-200"></div>
-  )}
-  <img
-    src="/bitcoin_accepted_hand.png"
-    alt="Watermark"
-    className="absolute bottom-3 right-2 h-10 w-auto opacity-40" 
-  />
-</div>
+        {provider.imageUrl ? (
+          <img
+            src={provider.imageUrl}
+            alt={name ?? ""}
+            className="h-64 w-full rounded object-cover"
+          />
+        ) : (
+          <div className="h-64 w-full rounded bg-gray-200"></div>
+        )}
+        <img
+          src="/bitcoin_accepted_hand.png"
+          alt="Watermark"
+          className="absolute bottom-3 right-2 h-10 w-auto opacity-40"
+        />
+      </div>
 
       {/* {provider.imageUrl ? (
         <img
@@ -57,7 +56,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
       <h2 className="mb-4 mt-4 text-xl font-bold">{name}</h2>
 
       {/* Line Separator */}
-      <div className="w-4/6 border-b-2 border-green-500 opacity-75 mx-0"></div>
+      <div className="mx-0 w-4/6 border-b-2 border-green-500 opacity-75"></div>
 
       {/* Services */}
       <div className="ml-1 mt-4 flex items-center">
@@ -81,12 +80,12 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
 
       {/* Location */}
       <div className="ml-1 mt-2 flex items-center">
-          <FontAwesomeIcon
-            icon={faMap}
-            className="text-md mr-2 h-4 fill-current text-green-700"
-            style={{ minWidth: "2.5em" }}
-          />
-          <div className="flex flex-wrap">
+        <FontAwesomeIcon
+          icon={faMap}
+          className="text-md mr-2 h-4 fill-current text-green-700"
+          style={{ minWidth: "2.5em" }}
+        />
+        <div className="flex flex-wrap">
           {location.map((loc) => (
             <button
               key={loc}
@@ -96,7 +95,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
               {loc}
             </button>
           ))}
-          </div>
+        </div>
       </div>
 
       {/* Description */}

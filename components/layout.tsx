@@ -22,7 +22,6 @@ const Layout = ({ preview, children }: Props) => {
         <Alert alertMessage={alertMessage} />
         <main className={inter.className}>{children}</main>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };
