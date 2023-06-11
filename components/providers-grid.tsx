@@ -40,7 +40,7 @@ const ProvidersGrid = () => {
             });
           })
         );
-        
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching providers:", error);
@@ -54,10 +54,10 @@ const ProvidersGrid = () => {
   return (
     <div>
       {isLoading ? (
-        <div className="flex justify-center items-center w-full h-full">
-          <Lottie 
-          animationData={bitcoinLoadingAnimation} 
-          style={{ width: 400, height: 400 }} 
+        <div className="flex h-full w-full items-center justify-center">
+          <Lottie
+            animationData={bitcoinLoadingAnimation}
+            style={{ width: 400, height: 400 }}
           />
         </div>
       ) : (
@@ -88,7 +88,6 @@ const ProvidersGrid = () => {
       )}
     </div>
   );
-  
 };
 
 export default ProvidersGrid;

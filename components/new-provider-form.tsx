@@ -172,7 +172,7 @@ const NewProviderForm = ({
 
   return (
     <div className="mx-auto flex w-full flex-col items-center bg-neutral-300 py-8">
-      <h1 className="text-center md:text-5xl text-4xl font-semibold text-black">
+      <h1 className="text-center text-4xl font-semibold text-black md:text-5xl">
         Get on the List!
       </h1>
 
