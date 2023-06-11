@@ -26,7 +26,7 @@ const FormToggle = React.forwardRef<HTMLInputElement, Props>(
           />
           <div className="toggle-switch-style peer"></div>
           <img
-            className="h-30 ml-8 w-60 flex-shrink-0"
+            className="ml-2 md:ml-4 w-20 h-10 md:w-80 md:h-40 flex-shrink-0" 
             src={imageUrl}
             alt="Bitcoin Accepted Here"
           />

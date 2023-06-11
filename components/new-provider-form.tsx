@@ -172,12 +172,12 @@ const NewProviderForm = ({
 
   return (
     <div className="mx-auto flex w-full flex-col items-center bg-neutral-300 py-8">
-      <h1 className="text-center text-5xl font-semibold text-black">
+      <h1 className="text-center md:text-5xl text-4xl font-semibold text-black">
         Get on the List!
       </h1>
 
       <form
-        className="my-4 flex w-full flex-col p-6 px-16"
+        className="my-4 flex w-full flex-col p-6 px-8 md:px-16"
         onSubmit={handleSubmit}
       >
         <FormInput
@@ -271,7 +271,7 @@ const NewProviderForm = ({
         <div className=" mb-8 rounded border-2 border-gray-600 bg-white p-4 shadow">
           <FormToggle
             id="payments_accepted"
-            imageUrl="bitcoin_accepted_black.png"
+            imageUrl="/bitcoin_accepted_black.png"
             error={
               formik.touched.payments_accepted &&
               formik.errors.payments_accepted

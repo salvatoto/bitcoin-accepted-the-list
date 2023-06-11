@@ -93,3 +93,17 @@ body {
 .contact-icon-inactive-style {
   @apply h-7 cursor-default fill-current text-gray-400;
 }
+
+/* IMAGE CONTAINER */
+.image-container {
+  width: 100%;
+  > div {
+    position: unset !important;
+  }
+  .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+  }
+}
