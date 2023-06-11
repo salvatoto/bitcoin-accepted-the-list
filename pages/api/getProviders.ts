@@ -1,19 +1,35 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const SITCOM = process.env.SITCOM === 'true'; 
+import { PrismaClient, Provider, Prisma } from "@prisma/client";
+const SITCOM = process.env.SITCOM === "true";
 
 const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const { service, location } = req.query;
+
+    const filterOptions: {
+      approved: boolean;
+      is_sitcom: boolean;
+      services?: Prisma.StringNullableListFilter;
+      location?: Prisma.StringNullableListFilter;
+    } = {
+      approved: true,
+      is_sitcom: SITCOM ? true : false,
+    };
+
+    if (service) {
+      filterOptions.services = { has: service as string };
+    }
+
+    if (location) {
+      filterOptions.location = { has: location as string };
+    }
+
     const providers = await prisma.provider.findMany({
-      where: {
-        approved: true,
-        is_sitcom: SITCOM ? true : false
-      },
+      where: filterOptions,
     });
-    
+
     const modifiedProviders = providers.map((provider) => {
       return {
         ...provider,

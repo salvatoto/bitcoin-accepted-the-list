@@ -15,10 +15,12 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
   onServiceClick,
 }) => {
   const { id, name, location, services, description } = provider;
-  const handleLocationClick = (loc: string) => {
+  const handleLocationClick = (event: React.MouseEvent, loc: string) => {
+    event.preventDefault();
     onLocationClick(loc);
   };
-  const handleServiceClick = (service: string) => {
+  const handleServiceClick = (event: React.MouseEvent, service: string) => {
+    event.preventDefault();
     onServiceClick(service);
   };
 
@@ -70,8 +72,8 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
             <button
               key={service}
               className="card-element-button font-semibold"
-              onClick={() => handleServiceClick(service)}
-            >
+              onClick={(event) => handleServiceClick(event, service)}
+              >
               {service}
             </button>
           ))}
@@ -90,7 +92,7 @@ const ProviderCard: React.FC<ProviderCardProps> = ({
             <button
               key={loc}
               className="card-element-button"
-              onClick={() => handleLocationClick(loc)}
+              onClick={(event) => handleLocationClick(event, loc)}
             >
               {loc}
             </button>

@@ -9,11 +9,22 @@ export async function fetchProvider(id: string | string[]) {
   return data.provider;
 }
 
-export async function fetchProviders() {
-  const response = await fetch("/api/getProviders");
+export async function fetchProviders(service?: string, location?: string): Promise<any> {
+  let url = "/api/getProviders";
+
+  const params = new URLSearchParams();
+
+  if(service) params.append('service', service);
+  if(location) params.append('location', location);
+
+  if(params.toString()) url += '?' + params.toString();
+
+  const response = await fetch(url);
+
   if (!response.ok) {
     throw new Error(response.statusText);
   }
+  
   const data = await response.json();
   return data.providers;
 }

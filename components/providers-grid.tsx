@@ -13,43 +13,38 @@ export type GridProvider = PrismaProvider & {
 const ProvidersGrid = () => {
   const [providers, setProviders] = useState<GridProvider[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [serviceFilter, setServiceFilter] = useState<string | undefined>(undefined);
+  const [locationFilter, setLocationFilter] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-
+  
       try {
-        setIsLoading(true);
-
         // Fetch providers
-        const data = await fetchProviders();
-        setProviders(data);
-
+        const data = await fetchProviders(serviceFilter, locationFilter);
+  
         // Fetch images
-        await Promise.all(
-          data.map(async (provider: GridProvider, index: number) => {
+        const updatedProviders = await Promise.all(
+          data.map(async (provider: GridProvider) => {
             const imageUrl = await fetchProviderImageUrl(
               provider.id.toString()
             );
-
-            const updatedProvider = { ...provider, imageUrl };
-            setProviders((prevProviders) => {
-              const updatedProviders = [...prevProviders];
-              updatedProviders[index] = updatedProvider;
-              return updatedProviders;
-            });
+  
+            return { ...provider, imageUrl };
           })
         );
-
+  
+        setProviders(updatedProviders);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching providers:", error);
+        setIsLoading(false);
       }
     };
-
+  
     fetchData();
-  }, []);
-  console.log(require("./lottie/bitcoin-animated-00.json").default);
+  }, [serviceFilter, locationFilter]);
 
   return (
     <div>
@@ -75,10 +70,10 @@ const ProvidersGrid = () => {
                 <ProviderCard
                   provider={provider}
                   onLocationClick={function (location: string): void {
-                    // TODO: Filter by Location
+                    setLocationFilter(location);
                   }}
                   onServiceClick={function (service: string): void {
-                    // TODO: Filter by Service
+                    setServiceFilter(service);
                   }}
                 />
               </a>
